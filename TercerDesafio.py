@@ -1,5 +1,7 @@
 import os
 import time
+import threading
+from multiprocessing import Pool
 from operator import itemgetter
 
 def buscar_siguiente_numero_valido(numero, maximo):
@@ -56,20 +58,39 @@ def aumentar_numero(numero):
     #print("Se avanzo desde {} hasta {}".format(numero, int(cadena)))
     return int(cadena)
 
-#TODO recibir numero de threads
-limite_inferior = 123456789
-limite_superior = 987654321
-#Calcula limites para cada thread
-numeros = list()
-#TODO largar threads
-primer_numero_valido = limite_inferior
-siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, 987654321)
-while siguiente_numero_valido is not None:
-    diferencia = siguiente_numero_valido - primer_numero_valido
-    conjunto = (primer_numero_valido, siguiente_numero_valido, diferencia)
-    print(conjunto)
-    numeros.append(conjunto)
-    primer_numero_valido = siguiente_numero_valido
-    siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, 987654321)
-print(sorted(numeros,key=itemgetter(1)))
+def calcular_conjuntos(limite_inferior, limite_superior)
+    numeros = list()
+    primer_numero_valido = limite_inferior
+    siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, limite_superior)
+    while siguiente_numero_valido is not None:
+        diferencia = siguiente_numero_valido - primer_numero_valido
+        conjunto = (primer_numero_valido, siguiente_numero_valido, diferencia)
+        print(conjunto)
+        numeros.append(conjunto)
+        primer_numero_valido = siguiente_numero_valido
+        siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, limite_superior)
+    return numeros
+    # print(sorted(numeros,key=itemgetter(1)))
 
+def main():
+    num_threads = sys.argv[1]
+    limite_inferior_original = 123456789
+    limite_superior_original = 987654321
+    incremento = (limite_superior - limite_inferior) / num_threads
+    lista_limites = []
+    limite_inferior = limite_inferior_original
+    for i in range(num_threads - 1):
+        limite_superior = limite_inferior + int(incremento)
+        lista_limites.append(tuple(limite_inferior, limite_superior))
+        #limite_inferior[i] = limite_inferior
+        limite_inferior = limite_superior
+    #limite_superior[-1] = limite_superior   #Porque se perdio precision al redondear el incremento
+    lista_limites.append(tuple(limite_inferior, limite_superior_original))
+    resultado = []
+    with Pool(num_threads) as pool:
+        for i in range(num_threads):
+            resultado.append(pool.starmap(calcular_conjuntos, product(names, repeat=2)))
+        print(results)    
+
+if __name__ == "__main__":
+    main()  
