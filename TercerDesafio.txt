@@ -1,0 +1,25 @@
+Problema =>
+El tercer desafío para poder tomar parte en la lucha contra la malvada organización SPAGHETTI CODE FOREVER
+requerirá encontrar otro número.
+
+La pregunta es: si formamos una serie de números contando de uno en uno desde 123456789, 987654321 inclusive,
+pero descartando todos los números que tengan algún dígito repetido, ¿Cuál será la máxima diferencia entre dos
+números consecutivos de la serie?
+
+Para aclarar, si contáramos entre 99 y 128, la serie resultaría 102 (99, 100 y 101 no son válidos, por tener dígitos repetidos),
+103, 104, 105, 106, 107, 108, 109, 120 (los números desde 110 hasta 119 no son válidos),
+123 (121 y 122 no son válidos), 124, 125, 126, 127, y 128.
+La respuesta sería entonces que la máxima diferencia fue 11 (entre 109 y 120).
+'''
+
+'''
+Solucion =>
+primer_numero_valido  = buscar_numero_valido(123456789)
+siguiente_numero_valido = buscar_numero_valido(primer_numero_valido)
+while primer_numero_valido <= 987654321 and siguiente_numero_valido <= 987654321
+    dif = siguiente - primero
+    numeros[i] = Numeros()
+    primer_numero_valido  = siguiente_numero_valido
+    siguiente_numero_valido = buscar_numero_valido(primer_numero_valido)
+
+'''
