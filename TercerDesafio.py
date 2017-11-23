@@ -1,3 +1,5 @@
+import os
+import time
 from operator import itemgetter
 
 def buscar_siguiente_numero_valido(numero, maximo):
@@ -37,10 +39,12 @@ def aumentar_numero(numero):
     cadena_original = str(numero)
     cadena = str(numero)
     for c in caracteres:
+        if c*2 in cadena[-2:]:
+            return numero + 1
         if '99' in c*2:
             i = cadena.find('99') - 1#posicion_substring(cadena, c*2)
             if i > 0:
-                cadena = str(int(cadena[i] + 1)) + '01' + cadena[i + 2] 
+                cadena = cadena[:i] + str(int(cadena[i]) + 1) + '01' + cadena[i + 3:]
                 #lista_de_chars[i] = int(cadena[i]) + 1
                 #cadena = cadena2 #"".join(lista_de_chars)
                 #cadena.replace('99','01')
@@ -48,13 +52,16 @@ def aumentar_numero(numero):
             reemplazo = c + str(int(c) + 1)[-1:]
             cadena = cadena.replace(c*2, reemplazo)
     if cadena in cadena_original:
-        return numero+1
-    print("----Se avanzo desde %d hasta %d", numero, int(cadena))
+        return numero + 1
+    #print("Se avanzo desde {} hasta {}".format(numero, int(cadena)))
     return int(cadena)
 
+#TODO recibir numero de threads
 limite_inferior = 123456789
 limite_superior = 987654321
+#Calcula limites para cada thread
 numeros = list()
+#TODO largar threads
 primer_numero_valido = limite_inferior
 siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, 987654321)
 while siguiente_numero_valido is not None:
