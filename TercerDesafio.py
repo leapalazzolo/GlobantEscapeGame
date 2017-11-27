@@ -1,6 +1,9 @@
 import sys
 import threading
 import csv
+import multiprocessing
+import time
+import os
 from multiprocessing.dummy import Pool
 from operator import itemgetter
 
@@ -55,56 +58,66 @@ def aumentar_numero(numero):
             cadena = cadena.replace(c*2, reemplazo)
     if cadena in cadena_original:
         return numero + 1
-    print("Se avanzo desde {} hasta {}".format(numero, int(cadena)))
+    #print("Se avanzo desde {} hasta {}".format(numero, int(cadena)))
     return int(cadena)
 
-def calcular_conjuntos(limites):
+def obtener_conjuntos(limites):
     numeros = list()
-    print(limites)
-    #TODO no tomar el primero como valido
-    primer_numero_valido = limites[0]
     limite_superior = limites[1]
+    #TODO no tomar el primero como valido
+    primer_numero_valido = buscar_siguiente_numero_valido(limites[0], limite_superior)
     siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, limite_superior)
     while siguiente_numero_valido is not None:
         diferencia = siguiente_numero_valido - primer_numero_valido
         conjunto = [primer_numero_valido, siguiente_numero_valido, diferencia]
-        print(conjunto)
+        #print("[{}]: {}".format(threading.current_thread().getName(), conjunto))
         numeros.append(conjunto)
         primer_numero_valido = siguiente_numero_valido
         siguiente_numero_valido = buscar_siguiente_numero_valido(primer_numero_valido, limite_superior)
+    print("[{}]: Listo {}".format(threading.current_thread().getName(), limites))
+    #print(numeros)
+    #numeros.sort(key=itemgetter(2), reverse=True)
     return numeros
-    #print(sorted(numeros,key=itemgetter(1)))
 
-def calcular_conjuntos_en_paralelo(limites, threads=2):
+def obtener_primeros_de_conjuntos(limites):
+    resultado = obtener_conjuntos(limites)
+    resultado.sort(key=itemgetter(2), reverse=True)
+    print("[{}]: Max. Diferencia: {}".format(threading.current_thread().getName(), resultado[0]))
+    return resultado[0]
+
+
+def obtener_primeros_de_conjuntos_en_paralelo(limites, threads):
     pool = Pool(threads)
     resultado = list()
-    resultado += pool.map(calcular_conjuntos, limites)
+    resultado += pool.map(obtener_primeros_de_conjuntos, limites)
+    resultado.sort(key=itemgetter(2), reverse=True)
     pool.close()
     pool.join()
     return resultado
 
+def obtener_maxima_diferencia(limites, threads):
+    return obtener_primeros_de_conjuntos_en_paralelo(limites, threads)[0]
+
 def main():
-    num_threads = int(sys.argv[1])
-    limite_inferior_original = 1234#56789
-    limite_superior_original = 9876#54321
+    inicio = time.clock()
+    limite_inferior_original = int(sys.argv[1])
+    limite_superior_original = int(sys.argv[2])
+    num_threads = int(sys.argv[3])
     incremento = (limite_superior_original - limite_inferior_original) / num_threads
     lista_limites = []
     limite_inferior = limite_inferior_original
     for i in range(num_threads - 1):
         limite_superior = limite_inferior + int(incremento)
         lista_limites.append([limite_inferior, limite_superior])
-        #limite_inferior[i] = limite_inferior
         limite_inferior = limite_superior
-    #limite_superior[-1] = limite_superior   #Porque se perdio precision al redondear el incremento
     lista_limites.append([limite_inferior, limite_superior_original])
-    resultado = calcular_conjuntos_en_paralelo(lista_limites, num_threads)
-    resultado.sort(key=itemgetter(2), reverse=True)
-    #TODO ver que ordena por sublistas
+    resultado = obtener_maxima_diferencia(lista_limites, num_threads)
+    print("--- Fin de ejecucion: %s segundos ---" % (time.clock() - inicio))
+    print("La maxima diferencia fue de {}, entre {} y {}".format(resultado[2], resultado[0], resultado[1]))
     with open('resultado.csv', 'w') as archivo_resultado:
         writer = csv.writer(archivo_resultado, delimiter=';', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
         writer.writerow(['Inicio', 'Fin', 'Diferencia'])
-        for item in resultado:
-            writer.writerows(item)
+        writer.writerow(resultado)
 
 if __name__ == "__main__":
     main()  
