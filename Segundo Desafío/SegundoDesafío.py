@@ -1,5 +1,6 @@
 import sys
 import time
+import csv
 import Combinatoria
 
 encontrado = False
@@ -60,6 +61,11 @@ def main():
     if encontrado:
         print("Max. cuadrado: {}".format(max_cuadrado))
         print("Sus cuadrados: {}".format(cuadrados))
+        with open('resultado.csv', 'w') as archivo_resultado:
+            writer = csv.writer(archivo_resultado, delimiter=';', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+            writer.writerow(['Cuadrados'])
+            cuadrados.insert(0, max_cuadrado)
+            writer.writerow(cuadrados)
 
 if __name__ == "__main__":
     main() 
