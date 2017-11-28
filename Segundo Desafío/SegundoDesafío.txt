@@ -9,4 +9,21 @@ Fin 9876543
 
 http://www.naturalnumbers.org/PS-10000.txt
 
+lista_comb = combinatoria(lista_de_7, 7)
+
+for d in digitos:
+    
+    lista = leer_cuadrados_sin_rep(long)
+lista.sort()
+while encontrado:
+    valor = list.pop()
+    digitos = obtener_digitos(valor)
+    if digitos in dicc:
+        continue
+    else:
+        cuadrados = obtener_cuadrados(digitos)
+        if len(cuadrados) = 7:
+            encontrado = True
+        else:
+            dicc[digitos] = cuadrados
 Dicccionario[numeros_de_menor_a_mayor] = [lista_de_cuadrados]
