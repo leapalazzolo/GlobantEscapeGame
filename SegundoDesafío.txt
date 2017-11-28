@@ -1,0 +1,12 @@
+La segunda pregunta que debes responder para ser candidato en la lucha contra
+la malévola organización SPAGHETTI CODE FOREVER, requiere que encuentres un número
+de siete cifras distintas. El número buscado es el mayor cuadrado perfecto posible cuyos dígitos,
+todos diferentes, pueden reordenarse de 7 modos diferentes para formar cuadrados perfectos,
+ninguno de los cuales comienza por cero.
+--------------------------------------------------------------
+Inicio 1234567
+Fin 9876543
+
+http://www.naturalnumbers.org/PS-10000.txt
+
+Dicccionario[numeros_de_menor_a_mayor] = [lista_de_cuadrados]
