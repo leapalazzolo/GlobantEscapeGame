@@ -1,0 +1,19 @@
+¡GLOBANT está por ser atacada! ¡Nuestros agentes se han enterado de los malvados
+planes de la organización SPAGHETTI CODE FOREVER que busca destruirnos!
+
+Dos de nuestros agentes, los Sres. PLAYFAIR y WHEATSTONE, se están encargando de
+la búsqueda de nuevos agentes para combatir los siniestros embates de los “spaguetistas”.
+Para poder ser considerado, tendrás que pasar por tres desafíos. Cada desafío tiene por respuesta
+un número de varias cifras.
+
+El primero requiere contestar una pregunta, pero para obtenerla tendrás que desencriptar
+el siguiente mensaje que los propios Playfair y Wheatstone encriptaron...
+y la clave para ello tendrás que deducirla, pues justamente es ¡EL DESAFÍO GLOBANT!
+
+DE MS LR MA LH LU SU ED LU PG VF US QU SF MK KL LA LD KM VF QG SL NL DL IG CF SL FC ND LO BO CI AS SF DI KB TC FM QF TC FE OL DF
+
+----------------------------------------------------------------------------
+
+Metodo Playfair Wheatstone
+Clave: ELDESAFIOGLOBANT
+Texto: DE MS LR MA LH LU SU ED LU PG VF US QU SF MK KL LA LD KM VF QG SL NL DL IG CF SL FC ND LO BO CI AS SF DI KB TC FM QF TC FE OL DF
